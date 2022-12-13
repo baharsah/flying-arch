@@ -8,7 +8,7 @@ import Icn from '../assets/Icon.png';
 const CustomNavbar = 
 () => {
 
-return  <Navbar variant="dark" style={ { backgroundRepeat: "no-repeat"  , objectFit : "cover" , backgroundSize : "100%" ,  backgroundImage : `url(${NavbarBG})`} } >
+return  <Navbar className='fixed-top' variant="dark" style={ { backgroundRepeat: "no-repeat"  , objectFit : "cover" , backgroundSize : "100%" ,  backgroundImage : `url(${NavbarBG})`} } >
 <Container>
   <Navbar.Brand href="#home">
     <img width="75%" height="75%" src={Icn}></img>

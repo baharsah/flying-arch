@@ -9,6 +9,9 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import GaransiImg from './assets/garansi.svg'
 import OppaKorea from './assets/oppakorea.svg'
+import Agent from './assets/agent.svg'
+import Support from './assets/support.svg'
+import GroupTour from './components/GroupTour';
 
 
 
@@ -30,7 +33,7 @@ function App() {
       <InputGroup className="mb-3">
         <Form.Control className='fs-3 fw-bold' id="basic-url" aria-describedby="basic-addon3" />
         <Button variant="warning" className='fw-bold fs-3' style={{ color : "white" , padding : "20px"}} id="button-addon2">
-          Button
+          Search
         </Button>
       </InputGroup>
 
@@ -74,7 +77,7 @@ function App() {
       <Card.Body className='pb-5'>
         {/* <Card.Title>Card Title</Card.Title> */}
         <Card.Subtitle className="mb-2 d-flex text-muted mt-3">
-          <img className='mx-auto' src={OppaKorea} alt="" width={"50%"} height={"50%"} srcset="" />
+          <img className='mx-auto' src={Agent} alt="" width={"50%"} height={"50%"} srcset="" />
         </Card.Subtitle>
         <Card.Text className='text-center fw-bold pt-5'>
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -90,7 +93,7 @@ function App() {
       <Card.Body className='pb-5'>
         {/* <Card.Title>Card Title</Card.Title> */}
         <Card.Subtitle className="mb-2 d-flex text-muted mt-3">
-          <img className='mx-auto' src={OppaKorea} alt="" width={"50%"} height={"50%"} srcset="" />
+          <img className='mx-auto' src={Support} alt="" width={"50%"} height={"50%"} srcset="" />
         </Card.Subtitle>
         <Card.Text className='text-center fw-bold pt-5'>
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -103,6 +106,7 @@ function App() {
       </Card.Body>
     </Card>
     </Container>
+    <GroupTour></GroupTour>
     </>
   )
 }
