@@ -12,6 +12,10 @@ function DetailTour() {
     <ImageExpo>
 
     </ImageExpo>
+    <Container className='mt-5 mb-5'>
+    
+        <h1 className='fs-5 fw-bold'>Information Trip</h1>
+    </Container>
     </>
   )
 }
