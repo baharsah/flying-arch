@@ -83,10 +83,19 @@ return  <Navbar className='fixed-top' variant="dark" style={ { backgroundRepeat:
       </Modal>
 <Modal show={showSignup} onHide={handleCloseSignup}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal Signup</Modal.Title>
+          <Modal.Title>Register</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <Form>
+        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Full Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="e.g. Asep Knalpot"
+                name='fullName' 
+                className=''
+              />
+            </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Email address</Form.Label>
               <Form.Control
@@ -104,7 +113,25 @@ return  <Navbar className='fixed-top' variant="dark" style={ { backgroundRepeat:
                 name='pass' 
                 className=''
               />
+              
             </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Phone</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="+62"
+                name='phone' 
+                className=''
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+        <Form.Label>Address</Form.Label>
+        <Form.Control
+         as="textarea" 
+         rows={3} 
+         name="Address"
+         />
+      </Form.Group>
             <div className="d-grid gap-2">
             <Button variant="warning"className=" fw-bold pt-2 pb-2 ps-2 pe-2 text-white">Signup</Button>
             </div>
