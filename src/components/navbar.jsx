@@ -9,9 +9,16 @@ import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Profile from '../assets/bs/profile.png'
+import { Dropdown } from 'react-bootstrap';
+import { BsFillCaretUpFill as CaretUp } from "react-icons/bs";
+import { registerUser } from '../modules/axios';
 
 const CustomNavbar = 
 () => {
+
+
+  const [isOpen, setIsOpen] = useState(false);
 
   // const nav = useNavigate()
   const [showSignin, setShowSignin] = useState(false);
@@ -21,6 +28,46 @@ const CustomNavbar =
   const handleCloseSignup = () => setShowSignup(false);
   const handleShowSignin = () => setShowSignin(true);
   const handleShowSignup = () => setShowSignup(true);
+
+
+const [signinData , setSigninData] = useState(); 
+
+const updateSigninData = e => {
+  // e.preventDefault()
+  setSigninData({...signinData,
+    [e.target.name]: e.target.value
+})
+}
+
+const submitSigninData = e => {
+  e.preventDefault()
+  // console.log(data)
+  console.log(signinData)
+
+}
+
+const [signupData , setSignupData] = useState(); 
+
+const updateSignupData = e => {
+  // e.preventDefault()
+  setSignupData({...signupData,
+    [e.target.name]: e.target.value
+})
+}
+
+const submitSignupData = e => {
+  e.preventDefault()
+  // console.log(data)
+  registerUser(signupData)
+
+}
+
+// console.log(e)
+
+
+
+
+
 
 return  <Navbar className='fixed-top' variant="dark" style={ { backgroundRepeat: "no-repeat"  , objectFit : "cover" , backgroundSize : "100%" ,  backgroundImage : `url(${NavbarBG})`} } >
 <Container>
@@ -46,6 +93,18 @@ return  <Navbar className='fixed-top' variant="dark" style={ { backgroundRepeat:
     </Nav>
     <Button variant="warning" onClick={handleShowSignin} className="me-3 fw-bold pt-2 pb-2 ps-2 pe-2">Login</Button>
     <Button className="fw-bold pt-2 pb-2 ps-2 pe-2" onClick={handleShowSignup} variant="outline-warning">Signup</Button>
+    <Dropdown>
+    <Button onClick={() => setIsOpen(!isOpen) } variant="warning" className="rounded-circle p-1 fw-bold"> <img className='rounded-circle' src={Profile} width="50" height='50' alt="" srcset="" /> </Button>
+    
+    <Dropdown.Menu className={'mt-3'} show={isOpen}>
+      <div style={{position : 'absolute' , transform : 'translateY(-25px)'  }}><CaretUp  style={{ color : "white" ,  width : 30 , height : 30}}></CaretUp></div>
+      <Dropdown.Header>Dropdown header</Dropdown.Header>
+      <Dropdown.Item eventKey="2">Another action</Dropdown.Item>
+      <Dropdown.Item eventKey="3">Something else here</Dropdown.Item>
+    </Dropdown.Menu>
+    </Dropdown>
+    {/* {isOpen && <div style={{backgroundColor : 'white'}}> DropDown Here </div>} */}
+        
   </Navbar.Collapse>
 </Container>
 {/* area modal */}
@@ -56,13 +115,14 @@ return  <Navbar className='fixed-top' variant="dark" style={ { backgroundRepeat:
    
 
         <Modal.Body>
-          <Form>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+          <form onSubmit={submitSigninData} method="post">
+          <Form.Group  className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Email address</Form.Label>
               <Form.Control
                 type="email"
                 name='email'
                 placeholder="name@example.com"
+                onChange={updateSigninData}
                 // autoFocus
               />
             </Form.Group>
@@ -72,13 +132,14 @@ return  <Navbar className='fixed-top' variant="dark" style={ { backgroundRepeat:
                 type="password"
                 placeholder="password"
                 name='pass' 
+                onChange={updateSigninData}
                 className=''
               />
             </Form.Group>
             <div className="d-grid gap-2">
-            <Button variant="warning"  className=" fw-bold pt-2 pb-2 ps-2 pe-2 text-white">Signin</Button>
+            <Button variant="warning" type="submit" className=" fw-bold pt-2 pb-2 ps-2 pe-2 text-white">Signin</Button>
             </div>
-          </Form>
+          </form>
         </Modal.Body>
       </Modal>
 <Modal show={showSignup} onHide={handleCloseSignup}>
@@ -86,7 +147,7 @@ return  <Navbar className='fixed-top' variant="dark" style={ { backgroundRepeat:
           <Modal.Title>Register</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Form>
+        <Form onSubmit={submitSignupData}>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Full Name</Form.Label>
               <Form.Control
@@ -94,6 +155,7 @@ return  <Navbar className='fixed-top' variant="dark" style={ { backgroundRepeat:
                 placeholder="e.g. Asep Knalpot"
                 name='fullName' 
                 className=''
+                onChange={updateSignupData}
               />
             </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -102,6 +164,7 @@ return  <Navbar className='fixed-top' variant="dark" style={ { backgroundRepeat:
                 type="email"
                 name='email'
                 placeholder="name@example.com"
+                onChange={updateSignupData}
                 // autoFocus
               />
             </Form.Group>
@@ -111,6 +174,8 @@ return  <Navbar className='fixed-top' variant="dark" style={ { backgroundRepeat:
                 type="password"
                 placeholder="password"
                 name='pass' 
+                onChange={updateSignupData}
+
                 className=''
               />
               
@@ -121,6 +186,7 @@ return  <Navbar className='fixed-top' variant="dark" style={ { backgroundRepeat:
                 type="text"
                 placeholder="+62"
                 name='phone' 
+                onChange={updateSignupData}
                 className=''
               />
             </Form.Group>
@@ -129,7 +195,8 @@ return  <Navbar className='fixed-top' variant="dark" style={ { backgroundRepeat:
         <Form.Control
          as="textarea" 
          rows={3} 
-         name="Address"
+         name="address"
+         onChange={updateSignupData}
          />
       </Form.Group>
             <div className="d-grid gap-2">

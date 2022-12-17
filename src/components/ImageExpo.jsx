@@ -5,18 +5,18 @@ import Img2 from '../assets/tu/img2.png'
 import Img3 from '../assets/tu/img3.png'
 import Img4 from '../assets/tu/img4.png'
 
-const ImageExpo = () => {
+const ImageExpo = (props) => {
   return (
     <Container>
     <Row>
     <Col className='col-md-auto'>
-      <h1 className='mt-1 fw-bold display-1'> Detail Trip</h1>
+      <h1 className='mt-1 fw-bold display-1'> {props.title}</h1>
       
       </Col>
     </Row>
     <Row>
     <Col className='col-lg-2'>
-      <p className='text-muted fs-3'>Australia</p>
+      <p className='text-muted fs-3'>{props.destination}</p>
       </Col>
     </Row>
     <Row className="">

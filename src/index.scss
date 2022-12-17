@@ -429,7 +429,7 @@ font-size:                $font-size-base * 4.5;
 
 
 $modal-content-border-color:        rgba($black, 0);
-$modal-fade-transform: scale(1);
+$modal-fade-transform: scale(1) translateX(-100);
 // $modal-backdrop-bg:                 $yellow-600;
 $modal-backdrop-opacity:            .2;
 $modal-footer-border-color:         rgba(0,0,0,0);

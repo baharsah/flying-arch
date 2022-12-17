@@ -32,7 +32,7 @@ function GroupTour() {
       {
            stateData.map((a , b) => {
             return (
-      <CardGroupTour image={Img1} slot={`${a.seat}/${a.seat - a.avail}`} price={c(a.price)} dest={a.destination} desc={a.description}></CardGroupTour>
+      <CardGroupTour image={Img1} slot={`${a.seat}/${a.seat - a.avail}`} id={b} price={c(a.price)} dest={a.destination} desc={a.description}></CardGroupTour>
             )
        })
       }
