@@ -10,14 +10,32 @@ import Modal from 'react-bootstrap/Modal';
 import { Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Profile from '../assets/bs/profile.png'
-import { Dropdown } from 'react-bootstrap';
+import { Dropdown , Alert } from 'react-bootstrap';
 import { BsFillCaretUpFill as CaretUp } from "react-icons/bs";
-import { registerUser } from '../modules/axios';
+import { registerUser , checkUser} from '../modules/axios';
 
 const CustomNavbar = 
 () => {
 
+  //switchto
 
+  const switchToRegister = () => {
+    setShowSignin(false)
+    setShowSignup(true)
+  }
+  const switchToLogin = () => {
+    setShowSignin(true)
+    setShowSignup(false)
+
+  }
+
+  // Register Status
+
+  const [emailStatusAvail , setEmailStatusAvail] = useState(null)
+  const [registerSuccess , setRegisterSuccess] = useState(null)
+  // const [hidingRegisterModal , setHidingRegisterModal] = useState(null)
+
+  //end
   const [isOpen, setIsOpen] = useState(false);
 
   // const nav = useNavigate()
@@ -50,6 +68,8 @@ const [signupData , setSignupData] = useState();
 
 const updateSignupData = e => {
   // e.preventDefault()
+  console.log('registerEventType')
+
   setSignupData({...signupData,
     [e.target.name]: e.target.value
 })
@@ -57,8 +77,25 @@ const updateSignupData = e => {
 
 const submitSignupData = e => {
   e.preventDefault()
-  // console.log(data)
-  registerUser(signupData)
+   console.log('registerEvent')
+
+   checkUser(signupData.email).then((response) => {
+
+    if(response.data.length > 0){
+      setEmailStatusAvail(true)
+    }else{
+      setRegisterSuccess(true)
+      setEmailStatusAvail(false)
+      setTimeout(() => {
+        setShowSignup(false)
+        setShowSignin(true)
+        setRegisterSuccess(false)
+        setEmailStatusAvail(false)
+      } ,2000)
+      
+    }
+   } )
+  // registerUser(signupData)
 
 }
 
@@ -140,20 +177,41 @@ return  <Navbar className='fixed-top' variant="dark" style={ { backgroundRepeat:
             <Button variant="warning" type="submit" className=" fw-bold pt-2 pb-2 ps-2 pe-2 text-white">Signin</Button>
             </div>
           </form>
+        <h3>Kamu belum daftar? <a onClick={switchToRegister}>Klik sini dong!</a></h3>
+
         </Modal.Body>
+
       </Modal>
 <Modal show={showSignup} onHide={handleCloseSignup}>
         <Modal.Header closeButton>
           <Modal.Title>Register</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Form onSubmit={submitSignupData}>
+        <form onSubmit={submitSignupData}>
+        <Alert show={registerSuccess} variant="success">
+      <Alert.Heading>Mantap jiwa!</Alert.Heading>
+      <p>
+register gak, tuh.
+      </p>
+    </Alert>
+    <Alert variant="warning" show={false}>
+      <Alert.Heading>Kayaknya ada yang salah, deh.</Alert.Heading>
+      <p>
+      tapi apa, ya? kayaknya dari kita, deh.
+      </p>
+    </Alert>
+    <Alert variant="warning" show={emailStatusAvail}>
+      <Alert.Heading>Email kamu udah kepake, nih.</Alert.Heading>
+      <p>
+      coba pake email lain ya, gais.
+      </p>
+    </Alert>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Full Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="e.g. Asep Knalpot"
-                name='fullName' 
+                name='nama' 
                 className=''
                 onChange={updateSignupData}
               />
@@ -200,9 +258,11 @@ return  <Navbar className='fixed-top' variant="dark" style={ { backgroundRepeat:
          />
       </Form.Group>
             <div className="d-grid gap-2">
-            <Button variant="warning"className=" fw-bold pt-2 pb-2 ps-2 pe-2 text-white">Signup</Button>
+            <Button variant="warning" type='submit' className=" fw-bold pt-2 pb-2 ps-2 pe-2 text-white">Signup</Button>
             </div>
-          </Form>
+          </form>
+        <h3>Kamu udah daftar? <a onClick={switchToLogin}>Klik sini dong!</a></h3>
+
         </Modal.Body>
       </Modal>
 </Navbar>

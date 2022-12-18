@@ -1,32 +1,62 @@
-import bcrypt from 'bcrypt'
+
 import axios from 'axios'
 
 export const registerUser = (data) => {
 
-
-    var hashPass
-
-    bcrypt.hash(data.password , "GaramDapur+l2phika.flower", function(err, hash) {
-        hashPass = hash
-    });
-
-    axios.post('https://localhost:3001/user', {
-            name: data.name,
+    return axios.post('http://127.0.0.1:3001/users', {
+            name: data.nama,
             email: data.email,
-            password : hashPass,
+            password : data.pass,
             phone : data.phone,
             address : data.address
       })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+
+}
+
+export const checkUser = (user) => {
 
 
+return axios.get('http://127.0.0.1:3001/users' , {
+        params : {
+        email : user
+}
 
-
+})
 
 
 }
+
+
+export const isAdmin = (user) => {
+
+        var isAdminBool
+
+        axios.get('http://127.0.0.1:3001/users' , {
+                params: {
+                        email : user
+                }
+        }).then((res) => {
+                isAdminBool =  (res.data.isAdmin != null)
+        })
+        return isAdminBool
+}
+
+export const checkAuth = (user,password) => {
+
+        var isPasswordCorrect
+
+
+        return axios.get('http://127.0.0.1:3001/users' , {
+                params : {
+                email : user
+        }
+        
+        }).then((res) => {
+               isPasswordCorrect =  (res.data.password == password)
+        }
+                
+        )
+        
+        
+        }
+        

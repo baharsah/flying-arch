@@ -1,9 +1,13 @@
 {
-  "posts": [
+  "users": [
     {
+      "name": "Arisu Lutfikahana Baharsah",
+      "email": "l2phika.flower@baharsah.my.id",
+      "password": "admin1212",
+      "phone": "081212009100",
+      "address": " Logged in from Another World",
       "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "isAdmin": true
     }
   ],
   "comments": [
