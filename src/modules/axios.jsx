@@ -29,34 +29,25 @@ return axios.get('http://127.0.0.1:3001/users' , {
 
 export const isAdmin = (user) => {
 
-        var isAdminBool
+        // var isAdminBool
 
-        axios.get('http://127.0.0.1:3001/users' , {
+        return axios.get('http://127.0.0.1:3001/users' , {
                 params: {
-                        email : user
+                        email : user , isAdmin : 'true'
                 }
-        }).then((res) => {
-                isAdminBool =  (res.data.isAdmin != null)
         })
-        return isAdminBool
 }
 
 export const checkAuth = (user,password) => {
 
-        var isPasswordCorrect
-
 
         return axios.get('http://127.0.0.1:3001/users' , {
                 params : {
-                email : user
+                email : user,
+                password : password
         }
         
-        }).then((res) => {
-               isPasswordCorrect =  (res.data.password == password)
-        }
-                
-        )
-        
+        })
         
         }
         

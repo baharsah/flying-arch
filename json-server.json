@@ -8,6 +8,21 @@
       "address": " Logged in from Another World",
       "id": 1,
       "isAdmin": true
+    },
+    {
+      "name": "Asep Knalpot",
+      "email": "l2phika.flowe2er@baharsah.my.id",
+      "password": "asal1212",
+      "phone": "081212009100",
+      "address": "dsfs,df;l,dslf,\n",
+      "id": 2
+    },
+    {
+      "name": "Dion Novalagung",
+      "email": "dionnoerror@email.id",
+      "password": "dion1212",
+      "phone": "081212009100",
+      "id": 3
     }
   ],
   "comments": [

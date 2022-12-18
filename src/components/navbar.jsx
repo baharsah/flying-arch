@@ -5,17 +5,38 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
 import NavbarBG from '../assets/e.png';
 import Icn from '../assets/Icon.png';
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Profile from '../assets/bs/profile.png'
 import { Dropdown , Alert } from 'react-bootstrap';
 import { BsFillCaretUpFill as CaretUp } from "react-icons/bs";
-import { registerUser , checkUser} from '../modules/axios';
+import { registerUser , checkUser, checkAuth, isAdmin} from '../modules/axios';
 
 const CustomNavbar = 
 () => {
+
+  //useEffect for localstorage
+  var [statusLogin , updatestatusLogin] = useState()
+  var [statusAdmin , updatestatusAdmin] = useState()
+
+
+  var destroySession = () => {
+    localStorage.removeItem("isLogin")
+    localStorage.removeItem("isAdmin")
+    localStorage.removeItem("user")
+    updatestatusAdmin(null)
+    updatestatusLogin(null)
+    console.log(statusLogin)
+  }
+  useEffect(() => {
+
+    updatestatusLogin(localStorage.getItem("isLogin"))
+    updatestatusAdmin(localStorage.getItem("isAdmin"))
+
+
+  } , [])
 
   //switchto
 
@@ -36,7 +57,14 @@ const CustomNavbar =
   // const [hidingRegisterModal , setHidingRegisterModal] = useState(null)
 
   //end
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, usetIsOpen] = useState(false);
+
+  const setIsOpen = () => {
+    usetIsOpen(true)
+    setTimeout(() => {
+      usetIsOpen(false)
+    },9000)
+  }
 
   // const nav = useNavigate()
   const [showSignin, setShowSignin] = useState(false);
@@ -49,6 +77,7 @@ const CustomNavbar =
 
 
 const [signinData , setSigninData] = useState(); 
+const [loginSuccess , setLoginSuccess] = useState(false)
 
 const updateSigninData = e => {
   // e.preventDefault()
@@ -60,7 +89,28 @@ const updateSigninData = e => {
 const submitSigninData = e => {
   e.preventDefault()
   // console.log(data)
-  console.log(signinData)
+  checkUser(signinData.email).then((r) => {
+    if (r.data.length > 0){
+      checkAuth(signinData.email , signinData.pass).then((r) => {
+        if(r.data.length > 0 ){
+          // console.log(isAdmin(r.data.email) + "adalah admin")
+
+          setLoginSuccess(true)
+          localStorage.setItem('isLogin' , true)
+    localStorage.setItem("user" , r.data.email)
+          setTimeout(() => {
+            setLoginSuccess(false)
+          handleCloseSignin()
+            updatestatusLogin("true")
+        } , 2000
+          )
+          isAdmin(r.data.email).then((r) => {
+            if(r.data.length > 0){updatestatusAdmin(true) ;localStorage.setItem("isAdmin" , true)}
+          })  
+        }
+      })
+    }
+  })
 
 }
 
@@ -85,6 +135,7 @@ const submitSignupData = e => {
       setEmailStatusAvail(true)
     }else{
       setRegisterSuccess(true)
+      registerUser(signupData)
       setEmailStatusAvail(false)
       setTimeout(() => {
         setShowSignup(false)
@@ -128,18 +179,26 @@ return  <Navbar className='fixed-top' variant="dark" style={ { backgroundRepeat:
         </NavDropdown.Item>
       </NavDropdown> */}
     </Nav>
+    {(statusLogin != "true") &&
+    <>
     <Button variant="warning" onClick={handleShowSignin} className="me-3 fw-bold pt-2 pb-2 ps-2 pe-2">Login</Button>
     <Button className="fw-bold pt-2 pb-2 ps-2 pe-2" onClick={handleShowSignup} variant="outline-warning">Signup</Button>
+    </>
+}
+     { (statusLogin != null) &&<>
     <Dropdown>
     <Button onClick={() => setIsOpen(!isOpen) } variant="warning" className="rounded-circle p-1 fw-bold"> <img className='rounded-circle' src={Profile} width="50" height='50' alt="" srcset="" /> </Button>
     
     <Dropdown.Menu className={'mt-3'} show={isOpen}>
       <div style={{position : 'absolute' , transform : 'translateY(-25px)'  }}><CaretUp  style={{ color : "white" ,  width : 30 , height : 30}}></CaretUp></div>
-      <Dropdown.Header>Dropdown header</Dropdown.Header>
-      <Dropdown.Item eventKey="2">Another action</Dropdown.Item>
-      <Dropdown.Item eventKey="3">Something else here</Dropdown.Item>
+      { (localStorage.getItem('isAdmin') == null) && <><Dropdown.Item eventKey="2">Trip</Dropdown.Item>
+      <Dropdown.Item onClick={destroySession}>Logout</Dropdown.Item></> }
+      { (localStorage.getItem('isAdmin') != null) && <><Dropdown.Item eventKey="2">Profile</Dropdown.Item><Dropdown.Item eventKey="2">Pay</Dropdown.Item>
+      <Dropdown.Item onClick={destroySession}>Logout</Dropdown.Item></> }
     </Dropdown.Menu>
     </Dropdown>
+    </>
+}
     {/* {isOpen && <div style={{backgroundColor : 'white'}}> DropDown Here </div>} */}
         
   </Navbar.Collapse>
@@ -153,6 +212,12 @@ return  <Navbar className='fixed-top' variant="dark" style={ { backgroundRepeat:
 
         <Modal.Body>
           <form onSubmit={submitSigninData} method="post">
+          <Alert show={loginSuccess} variant="success">
+      <Alert.Heading>Mantap jiwa!</Alert.Heading>
+      <p>
+        dah bisa login gak, tuh.
+      </p>
+    </Alert>
           <Form.Group  className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Email address</Form.Label>
               <Form.Control
