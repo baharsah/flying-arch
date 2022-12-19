@@ -8,14 +8,17 @@ import Icn from '../assets/Icon.png';
 import React, { useState , useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Profile from '../assets/bs/profile.png'
 import { Dropdown , Alert } from 'react-bootstrap';
 import { BsFillCaretUpFill as CaretUp } from "react-icons/bs";
 import { registerUser , checkUser, checkAuth, isAdmin} from '../modules/axios';
 
+
 const CustomNavbar = 
 () => {
+
+  const nav = useNavigate()
 
   //useEffect for localstorage
   var [statusLogin , updatestatusLogin] = useState()
@@ -191,9 +194,13 @@ return  <Navbar className='fixed-top' variant="dark" style={ { backgroundRepeat:
     
     <Dropdown.Menu className={'mt-3'} show={isOpen}>
       <div style={{position : 'absolute' , transform : 'translateY(-25px)'  }}><CaretUp  style={{ color : "white" ,  width : 30 , height : 30}}></CaretUp></div>
-      { (localStorage.getItem('isAdmin') == null) && <><Dropdown.Item eventKey="2">Trip</Dropdown.Item>
+      { (localStorage.getItem('isAdmin') == null) && <><Dropdown.Item eventKey="2" onClick={() => {
+          nav('trx')
+      }}>Trip</Dropdown.Item>
       <Dropdown.Item onClick={destroySession}>Logout</Dropdown.Item></> }
-      { (localStorage.getItem('isAdmin') != null) && <><Dropdown.Item eventKey="2">Profile</Dropdown.Item><Dropdown.Item eventKey="2">Pay</Dropdown.Item>
+      { (localStorage.getItem('isAdmin') != null) && <><Dropdown.Item eventKey="2" onClick={() => {
+          nav('profile')
+      } }>Profile</Dropdown.Item><Dropdown.Item eventKey="2">Pay</Dropdown.Item>
       <Dropdown.Item onClick={destroySession}>Logout</Dropdown.Item></> }
     </Dropdown.Menu>
     </Dropdown>

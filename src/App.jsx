@@ -6,6 +6,7 @@ import Home from './components/Home'
 import DetailTour from './components/DetailTour'
 import PaymentPending from './components/PaymentPending';
 import Profile from './components/Profile';
+import IncTrx from './components/IncTrx';
 
 
 
@@ -23,6 +24,8 @@ function App() {
         <Route path="/detail/:id" element={<DetailTour />}></Route>
         <Route path="/tour/pending" element={<PaymentPending />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
+        <Route path="/trx" element={<IncTrx />}></Route>
+        
       </Routes>
     <Footer></Footer>
     {/* css module and scss modeling */}
