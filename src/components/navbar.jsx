@@ -92,7 +92,7 @@ const updateSigninData = e => {
 const submitSigninData = e => {
   e.preventDefault()
   // console.log(data)
-  checkUser(signinData.email).then((r) => {
+ checkUser(signinData.email).then((r) => {
     if (r.data.length > 0){
       checkAuth(signinData.email , signinData.pass).then((r) => {
         if(r.data.length > 0 ){
@@ -112,6 +112,8 @@ const submitSigninData = e => {
           })  
         }
       })
+    }else{
+      alert("Auth Failed")
     }
   })
 
@@ -194,11 +196,11 @@ return  <Navbar className='fixed-top' variant="dark" style={ { backgroundRepeat:
     
     <Dropdown.Menu className={'mt-3'} show={isOpen}>
       <div style={{position : 'absolute' , transform : 'translateY(-25px)'  }}><CaretUp  style={{ color : "white" ,  width : 30 , height : 30}}></CaretUp></div>
-      { (localStorage.getItem('isAdmin') == null) && <><Dropdown.Item eventKey="2" onClick={() => {
+      { (isAdmin != null) && <><Dropdown.Item eventKey="2" onClick={() => {
           nav('trx')
       }}>Trip</Dropdown.Item>
       <Dropdown.Item onClick={destroySession}>Logout</Dropdown.Item></> }
-      { (localStorage.getItem('isAdmin') != null) && <><Dropdown.Item eventKey="2" onClick={() => {
+      { !isAdmin && <><Dropdown.Item eventKey="2" onClick={() => {
           nav('profile')
       } }>Profile</Dropdown.Item><Dropdown.Item eventKey="2">Pay</Dropdown.Item>
       <Dropdown.Item onClick={destroySession}>Logout</Dropdown.Item></> }
